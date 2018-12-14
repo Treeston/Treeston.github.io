@@ -1,0 +1,46 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8" />
+        <meta http-equiv="x-ua-compatible" content="ie=edge" />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        
+        <title>Deck Viewer</title>
+        
+        <link rel="stylesheet" href="ygodeck.css" />
+        <!--<link rel="icon" href="favicon.png" />-->
+    </head>
+    
+    <body>
+        <script src="carddata.js"></script>
+        <script src="ygodeck.js"></script>
+        
+        <noscript>Please enable Javascript.</noscript>
+        
+        <div id="import-ydk">
+            Import .ydk file: <input type="file" id="ydk" accept=".ydk" />
+        </div>
+        
+        <div id="zoom-viewer">
+            <div id="zoom-image"><img /></div>
+            <div id="zoom-name"></div>
+            <div id="zoom-text"></div>
+        </div>
+        
+        <div id="main-deck" class="deck">
+            <div class="deck-label">Main Deck</div>
+            <div class="deck-border"></div>
+            <div id="main-deck-container"></div>
+        </div>
+        <div id="extra-deck" class="deck">
+            <div class="deck-label">Extra Deck</div>
+            <div class="deck-border"></div>
+            <div id="extra-deck-container"></div>
+        </div>
+        <div id="side-deck" class="deck">
+            <div class="deck-label">Side Deck</div>
+            <div class="deck-border"></div>
+            <div id="side-deck-container"></div>
+        </div>
+    </body>
+</html>

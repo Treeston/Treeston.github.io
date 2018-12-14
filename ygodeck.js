@@ -78,7 +78,6 @@ function UpdateZoomData(data)
 {
     if (document.getElementById('zoom-viewer').zoomedCardId != data.id)
         return;
-    console.log(data);
     document.getElementById('zoom-name').innerText = data.name;
     document.getElementById('zoom-text').innerText = data.desc;
 }
@@ -91,7 +90,7 @@ function ZoomThisCard()
         zoomedCard = this;
         this.classList.add('selected');
         
-        document.getElementById('zoom-viewer').style.display = 'block';
+        document.getElementById('zoom-viewer').style.visibility = 'visible';
         document.getElementById('zoom-viewer').zoomedCardId = this.cardId;
         document.getElementById('zoom-image').firstChild.src = 'https://ygoprodeck.com/pics/' + this.cardId + '.jpg';
         document.getElementById('zoom-name').innerText = 'Loading...';
@@ -100,11 +99,17 @@ function ZoomThisCard()
     }
     else
     {
-        document.getElementById('zoom-viewer').style.display = 'none';
+        document.getElementById('zoom-viewer').style.visibility = 'hidden';
         
         this.classList.remove('selected');
         zoomedCard = null;
     }
+}
+
+function CloseZoomViewer()
+{
+    if (zoomedCard)
+        ZoomThisCard.call(zoomedCard);
 }
 
 function MakeDOMCard(id)
@@ -176,6 +181,8 @@ function ReloadFromHashData()
         if (decks.length < 1 || decks.length > 3)
             throw ('Too few or too many decks (' + decks.length + ')');
         
+        CloseZoomViewer();
+        
         LoadDeck(decks[0], 'main');
         if (decks.length > 1)
             LoadDeck(decks[1], 'extra');
@@ -186,10 +193,11 @@ function ReloadFromHashData()
             LoadDeck(decks[2], 'side');
         else
             LoadDeck('', 'side');
+        
     }
     catch (error)
     {
-        console.log('ERROR: ' + error);
+        console.error('ERROR: ' + error);
     }
 }
 

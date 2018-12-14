@@ -3,7 +3,7 @@ body { background: #cccccc; }
 
 body > div { display: none; }
 body.import > div#import-ydk { display: block; }
-body.view > div.deck, body.view > div#toolbox { display: block; }
+body.view > div.deck, body.view > div#toolbox, body.view > div#zoom-viewer { display: block; }
 
 div#import-ydk
 {
@@ -33,6 +33,7 @@ div#import-ydk, div#import-ydk *
 
 div#zoom-viewer
 {
+    visibility: hidden;
     position: absolute;
     top: 1vh;
     left: 1%;

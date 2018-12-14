@@ -7,12 +7,17 @@
         
         <title>Deck Viewer</title>
         
+        <link rel="stylesheet" href="modals.css" />
+        <link rel="stylesheet" href="toolbox.css" />
         <link rel="stylesheet" href="ygodeck.css" />
         <!--<link rel="icon" href="favicon.png" />-->
     </head>
     
     <body>
         <script src="carddata.js"></script>
+        <script src="modals.js"></script>
+        <script src="settings.js"></script>
+        <script src="toolbox.js"></script>
         <script src="ygodeck.js"></script>
         
         <noscript>Please enable Javascript.</noscript>
@@ -41,6 +46,21 @@
             <div class="deck-label">Side Deck</div>
             <div class="deck-border"></div>
             <div id="side-deck-container"></div>
+        </div>
+        
+        <div id="toolbox">
+            <div id="toolbox-main">
+                <div id="toolbox-settings">Settings</div>
+                <div id="toolbox-export">Export Deck</div>
+                <div id="toolbox-close">Close Deck</div>
+            </div>
+        </div>
+        
+        <div id="modal-background"></div>
+        <div id="modal-container">
+            <div id="modal-settings">
+                hello world!
+            </div>
         </div>
     </body>
 </html>

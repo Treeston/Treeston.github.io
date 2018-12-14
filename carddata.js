@@ -15,7 +15,8 @@ function RequestCardData(id, callback, ctx)
     {
         if (_cardDataCache[id] !== null)
         {
-            callback.call(ctx, _cardDataCache[id]);
+            if (callback)
+                callback.call(ctx, _cardDataCache[id]);
             return;
         }
     }

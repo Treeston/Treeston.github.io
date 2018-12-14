@@ -3,7 +3,7 @@ body { background: #cccccc; }
 
 body > div { display: none; }
 body.import > div#import-ydk { display: block; }
-body.view > div.deck { display: block; }
+body.view > div.deck, body.view > div#toolbox { display: block; }
 
 div#import-ydk
 {
@@ -31,16 +31,6 @@ div#import-ydk, div#import-ydk *
     font-size: 30px;
 }
 
-div.deck
-{
-    position: absolute;
-    left: 50%;
-    margin-left: -52vh;
-    width: 104vh;
-    background: #aaaaaa;
-    border-radius: 10px;
-}
-
 div#zoom-viewer
 {
     position: absolute;
@@ -52,6 +42,28 @@ div#zoom-viewer
     background: #aaaaaa;
     border: 4px solid #777777;
     border-radius: 8px;
+}
+
+div.deck
+{
+    position: absolute;
+    left: 50%;
+    margin-left: -52vh;
+    width: 104vh;
+    background: #aaaaaa;
+    border-radius: 10px;
+}
+
+div#toolbox
+{
+    position: absolute;
+    top: 1vh;
+    bottom: 1vh;
+    left: 50%;
+    right: 1%;
+    margin-left: 53vh;
+    overflow-y: auto;
+    overflow-x: hidden;
 }
 
 div#zoom-image

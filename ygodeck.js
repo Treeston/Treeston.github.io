@@ -35,8 +35,8 @@ function UpdateDeckCardLayout(container)
     var maxY = (container.clientHeight / document.documentElement.clientHeight * 100) - DECK_MARGIN_BOTTOM;
     
     var cardlist = SortDeckCards(container);
-    var leftFront = true; // false for rightmost card in front on stack
-    var stackDuplicates = false; // true to stack subsequent identical cards
+    var stackLTR = GetUserSettingBool('stackLTR'); // true for rightmost card in front of stack, false for leftmost card
+    var stackDuplicates = GetUserSettingBool('stackDuplicates'); // true to stack subsequent identical cards
     
     var previousId = null;
     for (var factor = 1.0; factor > 0; factor *= 0.98)
@@ -47,7 +47,7 @@ function UpdateDeckCardLayout(container)
         for (i=0; i<cardlist.length; ++i)
         {
             var card = cardlist[i];
-            card.style.zIndex = leftFront ? (cardlist.length-i) : (i+1);
+            card.style.zIndex = stackLTR ? (i+1) : (cardlist.length-i);
             
             var dx;
             if (!stackDuplicates || previousId != card.cardId)
@@ -125,7 +125,7 @@ function LoadDeck(cards, tag)
 {
     if (cards.length%9) // data format is 8 character id + 1 character multiplicity
         throw ('Invalid deck data for ' + tag + ' deck');
-    if (!(/^\d+$/.test(cards)))
+    if (!(/^\d*$/.test(cards)))
         throw ('Invalid characters in deck data for ' + tag + ' deck');
     
     var container = document.getElementById(tag+'-deck-container');
@@ -262,9 +262,11 @@ function ImportYDK()
     reader.fileName = ydkFile.name;
     reader.addEventListener('load',DoImportYDK);
     reader.readAsText(this.files[0]);
+    this.value = this.defaultValue;
 }
 
-document.addEventListener("DOMContentLoaded",function(){
+document.addEventListener("DOMContentLoaded",function()
+{
     ReloadFromHashData();
     
     document.getElementById('ydk').addEventListener('change', ImportYDK);

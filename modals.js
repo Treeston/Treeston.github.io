@@ -45,4 +45,5 @@ document.addEventListener("DOMContentLoaded",function()
     switch_to_setting('stackDuplicates');
     switch_to_setting('stackLTR');
     switch_to_setting('highResCards', true);
+    switch_to_setting('preloadAPI', true);
 });

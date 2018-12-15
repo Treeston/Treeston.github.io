@@ -119,7 +119,8 @@ function LoadDeck(cards, tag)
         for (var n=0;n<count;++n)
             container.appendChild(MakeDOMCard(id));
         
-        //RequestCardData(id);
+        if (GetUserSettingBool('preloadAPI'))
+            RequestCardData(id);
     }
     
     UpdateDeckCardLayout(container);

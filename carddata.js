@@ -40,7 +40,6 @@ function ProcessCardData()
             throw '';
         
         var id = parseInt(data.id);
-        console.log('Received card data for ID ' + id);
         data.id = id;
         
         if (data.atk)
@@ -61,14 +60,14 @@ function ProcessCardData()
             callbacks[i][0].call(callbacks[i][1], data);
         delete _cardDataCallbacks[id];
     } catch (e) {
-        console.log(e);
+        console.error(e);
         CardDataFailed.call(this);
     }
 }
 
 function CardDataFailed()
 {
-    console.log("Failed", this);
+    console.error("Failed", this);
 }
 
 window.setInterval(function()
@@ -89,7 +88,6 @@ window.setInterval(function()
                 id = null;
         }
     
-    console.log('Now requesting card data for ID ' + id);
     _cardDataCache[id] = null;
     
     var request = new XMLHttpRequest();

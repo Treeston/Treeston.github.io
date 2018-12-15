@@ -32,6 +32,46 @@ function RequestCardData(id, callback, ctx)
     _cardDataLastRequest = id;
 }
 
+let _allCardDataCallbacks = [];
+let AddAllCardData = function(data, tag)
+{
+    var container = document.getElementById(tag + '-deck-container');
+    var list = data[tag];
+    for (var i=0; i<container.children.length; ++i)
+    {
+        var card = container.children[i];
+        var id = card.cardId;
+        var cardData = null;
+        if (id in _cardDataCache)
+            cardData = _cardDataCache[id];
+        if (cardData !== null)
+        {
+            if (data.success)
+                data[tag].push([card, cardData]);
+        }
+        else
+        {
+            RequestCardData(id);
+            data.success = false;
+        }
+    }
+};
+function RequestAllCardData(callback, ctx)
+{
+    var data = { success: true, main: [], extra: [], side: [] };
+    AddAllCardData(data, 'main');
+    AddAllCardData(data, 'extra');
+    AddAllCardData(data, 'side');
+    
+    if (data.success)
+    {
+        if (callback)
+            callback.call(ctx, data);
+    }
+    else if (callback)
+        _allCardDataCallbacks.push([callback,ctx]);
+}
+
 function ProcessCardData()
 {
     try {
@@ -55,13 +95,27 @@ function ProcessCardData()
             data.scale = parseInt(data.scale);
         
         _cardDataCache[id] = data;
-        var callbacks = _cardDataCallbacks[id];
-        for (var i=0; i<callbacks.length; ++i)
-            callbacks[i][0].call(callbacks[i][1], data);
-        delete _cardDataCallbacks[id];
     } catch (e) {
         console.error(e);
         CardDataFailed.call(this);
+        return;
+    }
+    var callbacks = _cardDataCallbacks[id];
+    for (var i=0; i<callbacks.length; ++i)
+        callbacks[i][0].call(callbacks[i][1], data);
+    delete _cardDataCallbacks[id];
+    
+    if (_allCardDataCallbacks.length && !Object.keys(_cardDataCallbacks).length)
+    {
+        var allData = { success: true, main: [], extra: [], side: [] };
+        AddAllCardData(allData, 'main');
+        AddAllCardData(allData, 'extra');
+        AddAllCardData(allData, 'side');
+        while (_allCardDataCallbacks.length)
+        {
+            var f = _allCardDataCallbacks.pop();
+            f[0].call(f[1],allData);
+        }
     }
 }
 

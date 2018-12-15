@@ -3,7 +3,6 @@ const defaultSettings =
     'stackLTR': false,
     'stackDuplicates': false,
     'highResCards': false,
-    'preloadAPI': false,
 };
 
 let storagekey = function(key) { return 'config-'+key; }

@@ -5,9 +5,18 @@ div#toolbox > div
     border-radius: 8px;
 }
 
-div#toolbox-main { padding: 3px; text-align: center; }
+div#toolbox-main
+{
+    padding: 3px;
+    text-align: center;
+    transition: height 1s ease;
+    overflow: hidden;
+}
 
-div#toolbox-main > div
+div#toolbox-main > div { margin: 0; padding: 0; border: 0; }
+div#toolbox-main > div#toolbox-main-export { margin-top: 5px; border-top: 2px solid #cccccc; padding-top: 5px; }
+
+div#toolbox-main > div > div
 {
     display: inline-block;
     background: #999999;
@@ -23,4 +32,5 @@ div#toolbox-main > div
     font-size: 13px;
     user-select: none;
 }
-div#toolbox-main > div:hover { background: #bbbbbb; }
+div#toolbox-main > div > div:hover { background: #bbbbbb; }
+div#toolbox-export-container { display: none; }

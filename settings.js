@@ -1,7 +1,8 @@
 const defaultSettings = 
 {
-    'stackLTR': false, //
+    'stackLTR': false,
     'stackDuplicates': false,
+    'highResCards': false,
 };
 
 let storagekey = function(key) { return 'config-'+key; }

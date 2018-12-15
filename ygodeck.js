@@ -74,42 +74,11 @@ function UpdateDeckCardLayout(container)
     }
 }
 
-function UpdateZoomData(data)
+function UpdateAllDeckLayouts()
 {
-    if (document.getElementById('zoom-viewer').zoomedCardId != data.id)
-        return;
-    document.getElementById('zoom-name').innerText = data.name;
-    document.getElementById('zoom-text').innerText = data.desc;
-}
-
-var zoomedCard = null;
-function ZoomThisCard()
-{
-    if (this != zoomedCard)
-    {
-        zoomedCard = this;
-        this.classList.add('selected');
-        
-        document.getElementById('zoom-viewer').style.visibility = 'visible';
-        document.getElementById('zoom-viewer').zoomedCardId = this.cardId;
-        document.getElementById('zoom-image').firstChild.src = 'https://ygoprodeck.com/pics/' + this.cardId + '.jpg';
-        document.getElementById('zoom-name').innerText = 'Loading...';
-        document.getElementById('zoom-text').innerText = 'Loading card info from API...';
-        RequestCardData(this.cardId, UpdateZoomData);
-    }
-    else
-    {
-        document.getElementById('zoom-viewer').style.visibility = 'hidden';
-        
-        this.classList.remove('selected');
-        zoomedCard = null;
-    }
-}
-
-function CloseZoomViewer()
-{
-    if (zoomedCard)
-        ZoomThisCard.call(zoomedCard);
+    UpdateDeckCardLayout(document.getElementById('main-deck-container'));
+    UpdateDeckCardLayout(document.getElementById('extra-deck-container'));
+    UpdateDeckCardLayout(document.getElementById('side-deck-container'));
 }
 
 function MakeDOMCard(id)
@@ -120,7 +89,10 @@ function MakeDOMCard(id)
     main.addEventListener("click", ZoomThisCard);
     
     var pic = document.createElement('img');
-    pic.src = 'https://ygoprodeck.com/pics/' + id + '.jpg';
+    if (GetUserSettingBool('highResCards'))
+        pic.src = 'https://ygoprodeck.com/pics/' + id + '.jpg';
+    else
+        pic.src = 'https://ygoprodeck.com/pics_small/' + id + '.jpg';
     main.appendChild(pic);
     
     return main;
@@ -147,7 +119,7 @@ function LoadDeck(cards, tag)
         for (var n=0;n<count;++n)
             container.appendChild(MakeDOMCard(id));
         
-        RequestCardData(id);
+        //RequestCardData(id);
     }
     
     UpdateDeckCardLayout(container);

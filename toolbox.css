@@ -13,6 +13,7 @@ div#toolbox-main
 
 div#toolbox-main > div
 {
+    position: relative;
     display: inline-block;
     background: #999999;
     transition: background 1s ease-out;
@@ -27,3 +28,15 @@ div#toolbox-main > div
     font-size: 13px;
 }
 div#toolbox-main > div:hover { background: #bbbbbb; }
+div#toolbox-main > div > div.toolbox-indicator
+{
+    position: absolute;
+    display: none;
+    cursor: default;
+    left: 0;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    text-align: center;
+    background: #999999;
+}

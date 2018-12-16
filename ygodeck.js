@@ -1,5 +1,7 @@
 function SetTitle(title)
 {
+    document.deckTitle = title;
+    
     if (title)
         document.title = title + ' - Deck Viewer';
     else
@@ -46,7 +48,6 @@ function UpdateDeckCardLayout(container)
     var previousId = null;
     for (var factor = 1.0; factor > 0; factor *= 0.98)
     {
-        console.log(factor);
         var i;
         var x = DECK_MARGIN_SIDE - factor*(CARD_WIDTH + CARD_MARGIN_X);
         var y = DECK_MARGIN_TOP;

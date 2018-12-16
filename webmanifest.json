@@ -1,8 +1,0 @@
-{
-    "name": "Yu-Gi-Oh! Deck Builder",
-    "short_name": "Deck Builder",
-    "start_url": ".",
-    "display": "fullscreen",
-    "background_color": "#cccccc",
-    "orientation": "landscape"
-}

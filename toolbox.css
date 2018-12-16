@@ -7,16 +7,11 @@ div#toolbox > div
 
 div#toolbox-main
 {
-    padding: 3px;
+    padding: 1px 3px;
     text-align: center;
-    transition: height 1s ease;
-    overflow: hidden;
 }
 
-div#toolbox-main > div { margin: 0; padding: 0; border: 0; }
-div#toolbox-main > div#toolbox-main-export { margin-top: 5px; border-top: 2px solid #cccccc; padding-top: 5px; }
-
-div#toolbox-main > div > div
+div#toolbox-main > div
 {
     display: inline-block;
     background: #999999;
@@ -26,11 +21,9 @@ div#toolbox-main > div > div
     border: 2px solid #777777;
     border-radius: 4px;
     padding: 0px 5px;
-    margin: 0px 3px;
+    margin: 2px 3px;
     
     font-family: Verdana, Geneva, sans-serif;
     font-size: 13px;
-    user-select: none;
 }
-div#toolbox-main > div > div:hover { background: #bbbbbb; }
-div#toolbox-export-container { display: none; }
+div#toolbox-main > div:hover { background: #bbbbbb; }

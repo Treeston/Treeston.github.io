@@ -1,3 +1,4 @@
+
 html, body { margin: 0; height: 100%; width: 100%; }
 body { background: #cccccc; }
 
@@ -36,9 +37,8 @@ div#zoom-viewer
     visibility: hidden;
     position: absolute;
     top: 1vh;
-    left: 1%;
-    right: 50%;
-    margin-right: 53vh;
+    left: 1vh;
+    right: calc(50% + 53vh);
     padding: 1vh;
     background: #aaaaaa;
     border: 4px solid #777777;
@@ -49,8 +49,7 @@ div#zoom-viewer
 div.deck
 {
     position: absolute;
-    left: 50%;
-    margin-left: -52vh;
+    left: calc(50% - 52vh);
     width: 104vh;
     background: #aaaaaa;
     border-radius: 10px;
@@ -61,9 +60,8 @@ div#toolbox
     position: absolute;
     top: 1vh;
     bottom: 1vh;
-    left: 50%;
-    right: 1%;
-    margin-left: 53vh;
+    left: calc(50% + 53vh);
+    right: 1vh;
     overflow-y: auto;
     overflow-x: hidden;
 }
@@ -71,19 +69,19 @@ div#toolbox
 div#main-deck
 {
     top: 1vh;
-    bottom: 39vh;
+    height: 60vh;
 }
 
 div#extra-deck
 {
     top: 62vh;
-    bottom: 20vh;
+    height: 18vh;
 }
 
 div#side-deck
 {
     top: 81vh;
-    bottom: 1vh;
+    height: 18vh;
 }
 
 div.deck-border
@@ -97,9 +95,10 @@ div.deck-border
     border-radius: 8px;
 }
 
-div.deck-label
+div#main-deck-label, div#extra-deck-label, div#side-deck-label
 {
-    z-index: 1;
+    cursor: default;
+    z-index: 25000;
     position: absolute;
     background: #aaaaaa;
     left: 3vh;
@@ -111,6 +110,10 @@ div.deck-label
     font-size: 14px;
     font-family: "Lucida Console", Monaco, monospace;
 }
+
+div#main-deck-label::before { content: "Main Deck ("; }
+div#extra-deck-label::before { content: "Extra Deck ("; }
+div#side-deck-label::before { content: "Side Deck ("; }
 
 div#main-deck-container, div#extra-deck-container, div#side-deck-container
 {
@@ -135,4 +138,13 @@ div.card > img
     width:  100%;
     height: 100%;
     border-radius: 3%;
+}
+
+.noselect {
+  -webkit-touch-callout: none;
+    -webkit-user-select: none;
+     -khtml-user-select: none;
+       -moz-user-select: none;
+        -ms-user-select: none;
+            user-select: none;
 }

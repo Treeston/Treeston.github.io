@@ -3,7 +3,7 @@
     <head>
         <meta charset="utf-8" />
         <meta http-equiv="x-ua-compatible" content="ie=edge" />
-        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <meta name="viewport" content="width=1000, initial-scale=1" />
         
         <title>Deck Viewer</title>
         
@@ -11,6 +11,7 @@
         <link rel="stylesheet" href="modals.css" />
         <link rel="stylesheet" href="toolbox.css" />
         <link rel="stylesheet" href="ygodeck.css" />
+        <link rel="stylesheet" media="screen and (max-aspect-ratio: 10/7)" href="narrow.css" />
         <!--<link rel="icon" href="favicon.png" />-->
     </head>
     
@@ -40,17 +41,17 @@
         </div>
         
         <div id="main-deck" class="deck">
-            <div class="deck-label">Main Deck</div>
+            <div id="main-deck-label" class="noselect">0)</div>
             <div class="deck-border"></div>
             <div id="main-deck-container"></div>
         </div>
         <div id="extra-deck" class="deck">
-            <div class="deck-label">Extra Deck</div>
+            <div id="extra-deck-label" class="noselect">0)</div>
             <div class="deck-border"></div>
             <div id="extra-deck-container"></div>
         </div>
         <div id="side-deck" class="deck">
-            <div class="deck-label">Side Deck</div>
+            <div id="side-deck-label" class="noselect">0)</div>
             <div class="deck-border"></div>
             <div id="side-deck-container"></div>
         </div>

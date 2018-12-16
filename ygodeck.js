@@ -21,18 +21,23 @@ function SortDeckCards(container)
     return l;
 }
 
-const DECK_MARGIN_TOP = 2.5;
-const DECK_MARGIN_BOTTOM = 1;
-const DECK_MARGIN_SIDE = 1.5;
-const CARD_WIDTH = 10;
-const CARD_HEIGHT = 14;
-const CARD_MARGIN = 0.1;
-const STACKED_CARD_WIDTH = 2;
+const DECK_MARGIN_SIDE = (1.5/104)*100;
+const STACKED_CARD_WIDTH = (2/104)*100;
+const CARD_WIDTH = (10/104)*100;
+const CARD_MARGIN_X = (0.1/104)*100;
+const DECK_MARGIN_TOP_VH = 2.5;
+const DECK_MARGIN_BOTTOM_VH = 1;
+const CARD_HEIGHT_VH = 14;
+const CARD_MARGIN_Y_VH = 0.1;
 function UpdateDeckCardLayout(container)
 {
-    // all units are vh
-    var maxX = (container.clientWidth / document.documentElement.clientHeight * 100) - DECK_MARGIN_SIDE;
-    var maxY = (container.clientHeight / document.documentElement.clientHeight * 100) - DECK_MARGIN_BOTTOM;
+    // all X units are already in %
+    // Y units need to be converted to % (from vh) to work with narrow mode
+    const DECK_HEIGHT_FACTOR = (container.id == 'main-deck-container') ? (1/.6) : (1/.18);
+    const DECK_MARGIN_TOP = DECK_MARGIN_TOP_VH * DECK_HEIGHT_FACTOR;
+    const DECK_MARGIN_BOTTOM = DECK_MARGIN_BOTTOM_VH * DECK_HEIGHT_FACTOR;
+    const CARD_HEIGHT = CARD_HEIGHT_VH * DECK_HEIGHT_FACTOR;
+    const CARD_MARGIN_Y = CARD_MARGIN_Y_VH * DECK_HEIGHT_FACTOR;
     
     var cardlist = SortDeckCards(container);
     var stackLTR = GetUserSettingBool('stackLTR'); // true for rightmost card in front of stack, false for leftmost card
@@ -41,8 +46,9 @@ function UpdateDeckCardLayout(container)
     var previousId = null;
     for (var factor = 1.0; factor > 0; factor *= 0.98)
     {
+        console.log(factor);
         var i;
-        var x = DECK_MARGIN_SIDE - factor*(CARD_WIDTH + CARD_MARGIN);
+        var x = DECK_MARGIN_SIDE - factor*(CARD_WIDTH + CARD_MARGIN_X);
         var y = DECK_MARGIN_TOP;
         for (i=0; i<cardlist.length; ++i)
         {
@@ -51,23 +57,23 @@ function UpdateDeckCardLayout(container)
             
             var dx;
             if (!stackDuplicates || previousId != card.cardId)
-                dx = CARD_WIDTH + CARD_MARGIN;
+                dx = CARD_WIDTH + CARD_MARGIN_X;
             else
                 dx = STACKED_CARD_WIDTH;
             
             previousId = card.cardId;
             
             x += factor * dx;
-            if (x + CARD_WIDTH > maxX)
+            if (x + CARD_WIDTH > 100)
             {
                 x = DECK_MARGIN_SIDE;
-                y += CARD_HEIGHT + CARD_MARGIN;
+                y += CARD_HEIGHT + CARD_MARGIN_Y;
                 previousId = null;
-                if (y + CARD_HEIGHT > maxY)
+                if (y + CARD_HEIGHT > 100)
                     break;
             }
-            card.style.left = x+'vh';
-            card.style.top  = y+'vh';
+            card.style.left = x+'%';
+            card.style.top  = y+'%';
         }
         if (!(i < cardlist.length))
             break;
@@ -118,8 +124,10 @@ function LoadDeck(cards, tag)
         
         for (var n=0;n<count;++n)
             container.appendChild(MakeDOMCard(id));
-        
     }
+    
+    var label = document.getElementById(tag+'-deck-label');
+    label.innerText = container.children.length + ')';
     
     UpdateDeckCardLayout(container);
 }

@@ -1,13 +1,3 @@
-function SetTitle(title)
-{
-    document.deckTitle = title;
-    
-    if (title)
-        document.title = title + ' - Deck Viewer';
-    else
-        document.title = 'Deck Viewer';
-}
-
 function SortDeckCards(container)
 {
     var l = []
@@ -62,19 +52,17 @@ function UpdateDeckCardLayout(container)
             else
                 dx = STACKED_CARD_WIDTH;
             
-            previousId = card.cardId;
-            
             x += factor * dx;
             if (x + CARD_WIDTH > 100)
             {
                 x = DECK_MARGIN_SIDE;
                 y += CARD_HEIGHT + CARD_MARGIN_Y;
-                previousId = null;
                 if (y + CARD_HEIGHT > 100)
                     break;
             }
             card.style.left = x+'%';
             card.style.top  = y+'%';
+            previousId = card.cardId;
         }
         if (!(i < cardlist.length))
             break;
@@ -107,14 +95,15 @@ function MakeDOMCard(id)
 
 function LoadDeck(cards, tag)
 {
+    var container = document.getElementById(tag+'-deck-container');
+    while (container.lastChild)
+        container.removeChild(container.lastChild);
+    if (!cards)
+        return;
     if (cards.length%9) // data format is 8 character id + 1 character multiplicity
         throw ('Invalid deck data for ' + tag + ' deck');
     if (!(/^\d*$/.test(cards)))
         throw ('Invalid characters in deck data for ' + tag + ' deck');
-    
-    var container = document.getElementById(tag+'-deck-container');
-    while (container.lastChild)
-        container.removeChild(container.lastChild);
     
     for (var i=0; i<cards.length; i+=9)
     {
@@ -133,50 +122,98 @@ function LoadDeck(cards, tag)
     UpdateDeckCardLayout(container);
 }
 
+let hashData = { decks: { main: null, extra: null, side: null }, title: null };
+let updateFromHashData = function()
+{
+    if (!hashData.decks.main)
+    {
+        document.body.className = 'import';
+        document.title = 'Deck Viewer';
+        return;
+    }
+    document.body.className = 'view';
+    
+    LoadDeck(hashData.decks.main, 'main');
+    LoadDeck(hashData.decks.extra, 'extra');
+    LoadDeck(hashData.decks.side, 'side');
+    
+    if (hashData.title)
+        document.title = hashData.title + ' - Deck Viewer';
+    else
+        document.title = 'Deck Viewer';
+};
+
+function SetDeckTitle(title) { hashData.title = (title && title.length) ? title : null; HashDataChanged(); }
+function GetDeckTitle() { return hashData.title; }
+
+function HashDataChanged()
+{
+    if (!hashData.decks.main)
+    {
+        document.location.hash = '';
+        updateFromHashData();
+        return;
+    }
+    if (hashData.decks.extra === '')
+        hashData.decks.extra = null;
+    if (hashData.decks.side === '')
+        hashData.decks.side = null;
+    
+    var newTag = hashData.decks.main;
+    if (hashData.decks.extra)
+        newTag += ';' + hashData.decks.extra;
+    if (hashData.decks.side)
+        newTag += ';' + hashData.decks.side;
+    if (hashData.title)
+        newTag += ':' + encodeURIComponent(hashData.title);
+    
+    document.location.hash = newTag;
+    
+    updateFromHashData();
+}
+
 function ReloadFromHashData()
 {
     var tag = document.location.hash;
     if (tag.length <= 1)
     {
-        document.body.className = 'import';
+        hashData.decks.main = null;
+        hashData.decks.extra = null;
+        hashData.decks.side = null;
+        hashData.title = null;
+        updateFromHashData();
         return;
-    }
-    else
-    {
-        document.body.className = 'view';
     }
     
     try
     {
+        CloseZoomViewer();
+        
         var datas = tag.substring(1).split(':');
         if (!datas.length)
             throw ('Invalid data structure');
-        
-        if (datas.length > 1)
-            SetTitle(decodeURIComponent(datas[1]));
-        else
-            SetTitle(null);
         
         var decks = datas[0].split(';')
         if (decks.length < 1 || decks.length > 3)
             throw ('Too few or too many decks (' + decks.length + ')');
         
-        CloseZoomViewer();
-        
-        LoadDeck(decks[0], 'main');
-        if (decks.length > 1)
-            LoadDeck(decks[1], 'extra');
+        hashData.decks.main = decks[0];
+        hashData.decks.extra = (decks.length > 1 && decks[1].length) ? decks[1] : null;
+        hashData.decks.side = (decks.length > 2 && decks[2].length) ? decks[2] : null;
+        if (datas.length > 1)
+            hashData.title = decodeURIComponent(datas[1]);
         else
-            LoadDeck('', 'extra');
+            hashData.title = null;
         
-        if (decks.length > 2)
-            LoadDeck(decks[2], 'side');
-        else
-            LoadDeck('', 'side');
-        
+        HashDataChanged();
     }
     catch (error)
     {
+        hashData.decks.main = null;
+        hashData.decks.extra = null;
+        hashData.decks.side = null;
+        hashData.title = null;
+        HashDataChanged();
         console.error('ERROR: ' + error);
     }
 }
@@ -236,8 +273,11 @@ function DoImportYDK()
         lastId = null;
     }
     
-    document.location.hash = '#' + main + ';' + extra + ';' + side + ':' + encodeURIComponent(this.fileName);
-    ReloadFromHashData();
+    hashData.decks.main = main;
+    hashData.decks.extra = extra;
+    hashData.decks.side = null;
+    hashData.title = this.fileName;
+    HashDataChanged();
 }
 
 function ImportYDK()

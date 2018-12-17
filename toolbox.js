@@ -32,7 +32,7 @@ function CopyURL()
 
 let getExportedFileName = function(ending)
 {
-    var title = document.deckTitle;
+    var title = GetDeckTitle();
     if (!title)
         title = 'Exported Deck';
     if (!title.endsWith(ending))
@@ -66,7 +66,7 @@ let addTextLines = function(lines, cards, label)
 {
     if (!cards.length)
         return;
-    lines.push('== ' + label + ' (' + cards.length + ((cards.length > 1) ? ' cards)' : ' card) =='));
+    lines.push('== ' + label + ' (' + cards.length + ((cards.length > 1) ? ' cards) ==' : ' card) =='));
     var lastData = null;
     var count = 0;
     for (var i=0; i<cards.length; ++i)
@@ -107,8 +107,9 @@ function ExportText()
 document.addEventListener("DOMContentLoaded",function()
 {
     document.getElementById('toolbox-settings').addEventListener("click", function() { ShowModal('modal-settings'); });
-    document.getElementById('toolbox-copyurl').addEventListener("click", CopyURL);
+    document.getElementById('toolbox-title').addEventListener("click", function() { SetDeckTitle(window.prompt("New title:", GetDeckTitle())); });
     document.getElementById('toolbox-close').addEventListener("click", function() { document.location.hash = ''; ReloadFromHashData(); });
+    document.getElementById('toolbox-copyurl').addEventListener("click", CopyURL);
     document.getElementById('toolbox-export-ydk').addEventListener("click", ExportYDK);
     document.getElementById('toolbox-export-text').addEventListener("click", ExportText);
 });

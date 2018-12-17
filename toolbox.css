@@ -13,6 +13,14 @@ div#toolbox-main
 
 div#toolbox-main > div
 {
+    display: block;
+    padding: 0;
+    margin: 0;
+    border: 0;
+}
+
+div#toolbox-main > div > div
+{
     position: relative;
     display: inline-block;
     background: #999999;
@@ -27,8 +35,8 @@ div#toolbox-main > div
     font-family: Verdana, Geneva, sans-serif;
     font-size: 13px;
 }
-div#toolbox-main > div:hover { background: #bbbbbb; }
-div#toolbox-main > div > div.toolbox-indicator
+div#toolbox-main > div > div:hover { background: #bbbbbb; }
+div#toolbox-main > div > div > div.toolbox-indicator
 {
     position: absolute;
     display: none;

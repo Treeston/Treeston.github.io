@@ -275,7 +275,7 @@ function DoImportYDK()
     
     hashData.decks.main = main;
     hashData.decks.extra = extra;
-    hashData.decks.side = null;
+    hashData.decks.side = side;
     hashData.title = this.fileName;
     HashDataChanged();
 }

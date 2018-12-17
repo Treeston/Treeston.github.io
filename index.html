@@ -25,8 +25,9 @@
         
         <noscript>Please enable Javascript.</noscript>
         
-        <div id="import-ydk">
+        <div id="import-ydk" class="noselect">
             <div id="ydk-container">Import .ydk file: <input type="file" id="ydk" accept=".ydk" /></div>
+            <div id="ydk-subtext"><a id="ydk-about">About</a> | <a id="ydk-privacy">Privacy</a> | API data by <a href="https://ygoprodeck.com" target="_blank">YGOPRODeck</a></div>
         </div>
         
         <div id="zoom-viewer">
@@ -77,6 +78,31 @@
                 <div>Stack duplicate cards <div id="switch-stackDuplicates" class="switch"><div class="switch-bar"></div><div class="switch-button"></div></div></div>
                 <div>Stack cards left-to-right <div id="switch-stackLTR" class="switch"><div class="switch-bar"></div><div class="switch-button"></div></div></div>
                 <div>Use high-resolution cards in overview <div  id="switch-highResCards" class="switch"><div class="switch-bar"></div><div class="switch-button"></div></div></div>
+            </div>
+            <div id="modal-about">
+                <div><b>About</b>
+
+Developed and maintained by <a href="https://www.reddit.com/user/gallantron/" target="_blank">/u/gallantron</a> for <a href="https://www.reddit.com/r/yugioh/" target="_blank">/r/yugioh</a>.
+
+While hoping it shall not become necessary, the author would like to grant to any person obtaining a copy of this web application the rights to use, copy, modify, merge, publish or distribute the application or copies thereof in the event that both the author and the current maintainer have become unreachable.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+
+This web application makes use of copyrighted, unlicensed text and imagery from the Yu-Gi-Oh! TRADING CARD GAME (©1996 KAZUKI TAKAHASHI). Due to the nature of the application, the author believes this to qualify as Fair Use under U.S. copyright law.
+
+For information about how this application protects your data, please refer to the "Privacy" modal.
+                </div>
+            </div>
+            <div id="modal-privacy">
+                <div><b>Privacy</b>
+
+This application is currently hosted using <a href="https://pages.github.com/" target="_blank">GitHub pages</a>.
+As a result of you accessing this page, some potentially identifying information about your connection has unavoidably been exposed to the GitHub servers due to how the internet works. The author cannot speak for whether GitHub stores copies of this information
+
+The server hosting this application does not receive any information about the decks or cards you are viewing. All deck data is encoded in the anchor tag portion of the hyperlink URI, which is never transmitted to the server by your browser. This deck data is processed exclusively via client-side Javascript, which can be freely reviewed in human-readable form by perusing the dev console in your browser.
+
+In the course of visualizing the deck data, card data and imagery is retrieved from the <a href="https://db.ygoprodeck.com/api-guide/" target="_blank">YGOPRODeck API</a>, again exposing some identifying information by necessity, combined with information about the card you are requesting. The author does not know whether YGOPRODeck stores this information longer than is necessary, but feels obliged to point out that YGOPRODeck has the <i>capability</i> to identify the cards you are viewing, and pattern analysis could <i>in theory</i> allow them to reconstruct deck lists from this data. The author does not believe YGOPRODeck to be engaged in any of the activities previously outlined as hypothetical possibilities.
+                </div>
             </div>
         </div>
     </body>

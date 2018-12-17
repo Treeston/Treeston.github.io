@@ -220,7 +220,7 @@ function ReloadFromHashData()
 
 function DoImportYDK()
 {
-    var lines = this.result.split(/[\r\n]+/)
+    var lines = this.result.split(/[\r\n]+/);
     var main = '';
     var extra = '';
     var side = '';
@@ -298,4 +298,6 @@ document.addEventListener("DOMContentLoaded",function()
     ReloadFromHashData();
     
     document.getElementById('ydk').addEventListener('change', ImportYDK);
+    document.getElementById('ydk-about').addEventListener('click', function() { ShowModal('modal-about'); });
+    document.getElementById('ydk-privacy').addEventListener('click', function() { ShowModal('modal-privacy'); });
 });

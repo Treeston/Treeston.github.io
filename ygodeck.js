@@ -160,7 +160,7 @@ function HashDataChanged()
         hashData.decks.side = null;
     
     var newTag = CompressDeckData(hashData.decks.main);
-    if (hashData.decks.extra)
+    if (hashData.decks.extra || hashData.decks.side)
         newTag += ';' + CompressDeckData(hashData.decks.extra);
     if (hashData.decks.side)
         newTag += ';' + CompressDeckData(hashData.decks.side);
@@ -198,8 +198,8 @@ function ReloadFromHashData()
             throw ('Too few or too many decks (' + decks.length + ')');
         
         hashData.decks.main = DecompressDeckData(decks[0]);
-        hashData.decks.extra = (decks.length > 1 && decks[1].length) ? DecompressDeckData(decks[1]) : null;
-        hashData.decks.side = (decks.length > 2 && decks[2].length) ? DecompressDeckData(decks[2]) : null;
+        hashData.decks.extra = (decks.length > 1) ? DecompressDeckData(decks[1]) : null;
+        hashData.decks.side = (decks.length > 2) ? DecompressDeckData(decks[2]) : null;
         if (datas.length > 1)
             hashData.title = decodeURIComponent(datas[1]);
         else

@@ -3,11 +3,22 @@ const BITS_PER_CARD_CODE = 27;
 const BITS_PER_CARD_COUNT = 2;
 
 let isDecompressedDeckData = function(data) { return ((!(data.length%9)) && /^\d+$/.test(data)); };
+let getFirstIndexAfterPadding = function(data)
+{
+    var i = 0;
+    while (i < data.length && data.charCodeAt(i) == 0)
+        ++i;
+    if (i < data.length && data.charCodeAt(i) == 1)
+        return i+1;
+    return 0;
+}
 
 function CompressDeckData(data)
 {
+    if (!data || !data.length)
+        return '';
     if (!isDecompressedDeckData(data))
-        throw 'Internal error - invalid deck data';
+        throw 'Internal error - invalid deck data: ' + data;
     
     var raw = '';
     
@@ -41,24 +52,28 @@ function CompressDeckData(data)
     if (nextBitInOutput)
         raw += String.fromCharCode(outputCharCode);
     
-    var compressed = btoa(raw);
-    while (isDecompressedDeckData(compressed)) // padding
-        compressed = btoa(raw = (String.fromCharCode(0) + raw));
+    var compressed; // add padding
+    if (getFirstIndexAfterPadding(raw) || isDecompressedDeckData(compressed = btoa(raw)))
+    {
+        raw = (String.fromCharCode(0) + String.fromCharCode(1) + raw);
+        while (isDecompressedDeckData(compressed = btoa(raw)))
+            raw = (String.fromCharCode(0) + raw);
+    }
         
     return compressed;
 }
 
 function DecompressDeckData(data)
 {
-    if (!data || !data.length || isDecompressedDeckData(data))
+    if (!data || !data.length)
+        return null;
+    if (isDecompressedDeckData(data))
         return data; // data is not compressed (old URL)
     
     var raw = atob(data);
     var decompressed = '';
     
-    var nextCharacterIndex = 0;
-    while (raw.charCodeAt(nextCharacterIndex) == 0) // potential padding
-        ++nextCharacterIndex;
+    var nextCharacterIndex = getFirstIndexAfterPadding(data);
     var nextBitInCharacter = 0;
     
     var readCardData = 0;
@@ -78,7 +93,7 @@ function DecompressDeckData(data)
         {
             var cardCode = readCardData >> BITS_PER_CARD_COUNT;
             var cardCount = readCardData & ((1 << BITS_PER_CARD_COUNT)-1);
-            decompressed += cardCode;
+            decompressed += ('0000000' + cardCode).slice(-8);
             decompressed += cardCount;
             
             readCardData = 0;

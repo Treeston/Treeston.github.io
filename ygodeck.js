@@ -159,11 +159,11 @@ function HashDataChanged()
     if (hashData.decks.side === '')
         hashData.decks.side = null;
     
-    var newTag = hashData.decks.main;
+    var newTag = CompressDeckData(hashData.decks.main);
     if (hashData.decks.extra)
-        newTag += ';' + hashData.decks.extra;
+        newTag += ';' + CompressDeckData(hashData.decks.extra);
     if (hashData.decks.side)
-        newTag += ';' + hashData.decks.side;
+        newTag += ';' + CompressDeckData(hashData.decks.side);
     if (hashData.title)
         newTag += ':' + encodeURIComponent(hashData.title);
     
@@ -197,9 +197,9 @@ function ReloadFromHashData()
         if (decks.length < 1 || decks.length > 3)
             throw ('Too few or too many decks (' + decks.length + ')');
         
-        hashData.decks.main = decks[0];
-        hashData.decks.extra = (decks.length > 1 && decks[1].length) ? decks[1] : null;
-        hashData.decks.side = (decks.length > 2 && decks[2].length) ? decks[2] : null;
+        hashData.decks.main = DecompressDeckData(decks[0]);
+        hashData.decks.extra = (decks.length > 1 && decks[1].length) ? DecompressDeckData(decks[1]) : null;
+        hashData.decks.side = (decks.length > 2 && decks[2].length) ? DecompressDeckData(decks[2]) : null;
         if (datas.length > 1)
             hashData.title = decodeURIComponent(datas[1]);
         else
@@ -231,7 +231,7 @@ function DoImportYDK()
     for (var i=0; i<lines.length; ++i)
     {
         var line = lines[i];
-        if ((line === lastId) && (num < 9))
+        if ((line === lastId) && (num < 3))
         {
             ++num;
             continue;

@@ -18,7 +18,7 @@ function ZoomThisCard()
         
         document.getElementById('zoom-viewer').style.visibility = 'visible';
         document.getElementById('zoom-viewer').zoomedCardId = id;
-        document.getElementById('zoom-image').firstChild.src = 'https://ygoprodeck.com/pics/' + id + '.jpg';
+        document.getElementById('zoom-image').firstChild.src = 'https://storage.googleapis.com/ygoprodeck.com/pics/' + id + '.jpg';
         document.getElementById('zoom-name').innerText = 'Loading...';
         document.getElementById('zoom-text').innerText = 'Loading card info from API...';
         document.getElementById('zoom-konamidb-en').style.display = 'none';

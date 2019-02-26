@@ -2,7 +2,7 @@
 
 // Rate limit is 20 requests per 1 second
 // We send at most one request every 100ms to be safe
-const REQUEST_THROTTLE = 100;
+const REQUEST_THROTTLE_DATA = 100;
 
 let _cardDataCache = {};
 let _cardDataRequests = [];
@@ -111,6 +111,8 @@ function ProcessCardData()
         AddAllCardData(allData, 'main');
         AddAllCardData(allData, 'extra');
         AddAllCardData(allData, 'side');
+        if (!allData.success)
+            return;
         while (_allCardDataCallbacks.length)
         {
             var f = _allCardDataCallbacks.pop();
@@ -121,7 +123,7 @@ function ProcessCardData()
 
 function CardDataFailed()
 {
-    console.error("Failed", this);
+    console.error("Data API failed", this);
 }
 
 window.setInterval(function()
@@ -150,4 +152,4 @@ window.setInterval(function()
     request.open("GET", "https://db.ygoprodeck.com/api/v2/cardinfo.php?name=" + id, true);
     request.send();
     
-}, REQUEST_THROTTLE);
+}, REQUEST_THROTTLE_DATA);

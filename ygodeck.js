@@ -131,6 +131,7 @@ let updateFromHashData = function()
         document.title = 'Deck Viewer';
         return;
     }
+    CloseZoomViewer();
     document.body.className = 'view';
     
     LoadDeck(hashData.decks.main, 'main');
@@ -187,8 +188,6 @@ function ReloadFromHashData()
     
     try
     {
-        CloseZoomViewer();
-        
         var datas = tag.substring(1).split(':');
         if (!datas.length)
             throw ('Invalid data structure');

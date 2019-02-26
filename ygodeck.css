@@ -4,7 +4,8 @@ body { background: #cccccc; }
 
 body > div { display: none; }
 body.import > div#import-ydk { display: block; }
-body.view > div.deck, body.view > div#toolbox, body.view > div#zoom-viewer { display: block; }
+body.view > div.deck, body.view > div#zoom-viewer { display: block; }
+body.view > div#toolbox { display: flex; }
 
 div#import-ydk
 {
@@ -46,7 +47,8 @@ div#ydk-subtext > a
     text-decoration: underline;
     color: #000000;
 }
-div#ydk-subtext > a:hover { text-decoration: underline overline dotted }
+div#ydk-subtext > a:hover { text-decoration: underline overline dotted; }
+div#ydk-subtext > span { color: #707070; }
 
 div#zoom-viewer
 {
@@ -78,8 +80,8 @@ div#toolbox
     bottom: 1vh;
     left: calc(50% + 53vh);
     right: 1vh;
-    overflow-y: auto;
-    overflow-x: hidden;
+    
+    flex-direction: column;
 }
 
 div#main-deck
